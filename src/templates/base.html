@@ -1,0 +1,81 @@
+{% extends "base_bootstrap.html" %} {% set version = "1.33" %} {% set last_update = "April 25, 2023" %} {% block title
+%}HireMaster{% endblock title%} {% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2" aria-label="Main navigation">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">HireMaster</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li id="home" class="nav-item">
+          <a class="nav-link" aria-current="page" href="/">Home</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item" id="dashboard">
+          <a class="nav-link" href="#">Dashboard</a>
+        </li>
+
+        <li id="logoff" class="nav-item">
+          <a class="nav-link" href="#">Log off</a>
+        </li>
+
+        {% else %}
+
+        <li id="login" class="nav-item">
+          <a class="nav-link" href="#">Login </a>
+        </li>
+        <li id="signup" class="nav-item">
+          <a class="nav-link" href="#">Sign Up</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% endblock navbar%} {% block content %} {% block table_all %} {% block table_statistics %} {% endblock
+table_statistics%} {% endblock table_all %} {% with messages = get_flashed_messages(with_categories=true) %} {% if
+messages %} {% for category, message in messages %} {% if category == 'error' %}
+<div class="alert alert-danger alert-dismissible show mx-5 mt-4 border border-success" role="alert">
+  {{ message }}
+  <button type="button" class="'close" data-dismiss="alert" aria-label="Close" onclick="onButtonPress(this)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% else %}
+<div class="alert alert-success alert-dismissible show" role="alert">
+  {{ message }}
+  <button type="button" class="'close" data-dismiss="alert" aria-label="Close" onclick="onButtonPress(this)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %} {% endfor %} {% endif %} {% endwith %} {% block page_content %}{% endblock %} {%block
+page_footer%}{%endblock page_footer%}{% block date_time %}
+<ul>
+  <li>The server date and time: <code>{{ current_time.strftime('%B %d %Y - %I:%M %p') }}</code>.</li>
+  <li>That was {{ moment(current_time).fromNow(refresh=True) }}</li>
+  <li>The current version <code>{{version}}</code>, updated at <code>{{last_update}}</code>.</li>
+</ul>
+{% endblock date_time%} {% endblock content%} {% block scripts_sub%}
+<script>
+  function onButtonPress(flash) {
+    $(".alert").alert("close");
+    $(flash).parent().remove();
+    sessionStorage.clear();
+  }
+</script>
+
+{% endblock scripts_sub%} {% block scripts %} {{ super() }} {{ moment.include_moment() }} {% endblock %}

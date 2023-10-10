@@ -1,0 +1,6 @@
+2023-10-08 14:20:33,534 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2023-10-08 14:20:33,534 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2023-10-08 14:20:40,394 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [08/Oct/2023 14:20:40] "GET / HTTP/1.1" 200 -
+2023-10-08 14:20:40,406 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [08/Oct/2023 14:20:40] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2023-10-08 14:20:40,581 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [08/Oct/2023 14:20:40] "GET /static/favicon.ico HTTP/1.1" 200 -
