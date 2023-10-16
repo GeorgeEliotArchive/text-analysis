@@ -1,0 +1,84 @@
+{% extends "mybase.html" %} {%block title%} Job Transcript {%endblock title%} {% block page_logo %}
+<div class="container">
+  <div class="mx-auto p-3" style="width: 200px">
+    <img src="{{ url_for('static', filename='why-no-background.png') }}" width="200" class="icon" alt="logo_func" />
+  </div>
+</div>
+{%endblock page_logo%} {%block page_content%}
+<div class="container">
+  <div class="p-3 pb-3" style="min-width: 800px">
+    <form class="" method="post" id="todo_form">
+      <div class="row input-group">
+        <textarea class="form-control col-md-8" name="why" id="why" aria-label="With textarea"></textarea>
+        <input
+          class="col-md-2"
+          style="min-width: 100px"
+          type="number"
+          name="num"
+          id="num"
+          placeholder="token: 250-2000"
+          required
+        />
+        <button id="btn_submit" class="col-md-2 btn btn-primary px-2" style="min-width: 120px" type="submit">
+          Answer
+        </button>
+      </div>
+    </form>
+  </div>
+  <div
+    class="pb-3 overflow-auto bg-primary-subtle border border-primary-subtle rounded-3"
+    style="min-width: 800px; min-height: 480px"
+    id="result_openai"
+  >
+    <div class="p-3 text-primary fw-semibold bg-primary-subtle">
+      A question will be answered, look an example below:
+    </div>
+    <ul>
+      <li><code>How to hire an English instructor in New York State?</code></li>
+      <li>Token(input number only): <code>1000</code></li>
+    </ul>
+  </div>
+</div>
+
+{%endblock page_content%} {%block scripts_sub%}
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"
+></script>
+<script type="text/javascript">
+  $(document).on("submit", "#todo_form", function (e) {
+    e.preventDefault();
+    var executed = false;
+    $.ajax({
+      type: "POST",
+      data: {
+        why: $("#why").val(),
+        num: $("#num").val(),
+      },
+      beforeSend: function () {
+        if (!executed) {
+          $("#result_openai").html(
+            '<div class="m-3 spinner-border text-primary"></div>\
+              <div class="text-start p-3"><h5 class="text-primary"> Loading... DO NOT refresh this page. </h5></div>'
+          );
+
+          $("#btn_submit").html('<span class="spinner-border spinner-border-sm"></span> Loading..');
+          executed = true;
+        }
+      },
+      success: function (data) {
+        var content =
+          '<div class="text-start p-3" style="min-width:800px; min-height: 480px"> <ul class="list-unstyled text-primary">';
+        data["result"].forEach((item) => {
+          content += "<li>" + item + "</li>";
+        });
+        content += "</ul></div>";
+        $("#result_openai").html(content);
+        $("#btn_submit").html("Answer");
+        executed = false;
+      },
+    });
+  });
+</script>
+{%endblock scripts_sub%}
