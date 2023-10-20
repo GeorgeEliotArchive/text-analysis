@@ -6,6 +6,10 @@ import os
 
 
 def locate_non_ascii_characters(text, ambchars):
+    """locates non-ASCII characters in a string and prints their details
+    a list of ambiguous characters is returned
+    """
+
     non_ascii_chars = set()  # Using a set to ensure unique values
     for char in text:
         if ord(char) > 127:

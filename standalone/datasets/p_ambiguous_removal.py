@@ -33,26 +33,8 @@ def identify_and_replace_ambiguous_characters(text):
     return text
 
 
-def locate_non_ascii_characters(text):
-    non_ascii_chars = set()  # Using a set to ensure unique values
-    for char in text:
-        if ord(char) > 127:
-            non_ascii_chars.add(char)
-
-    # Print the details of the non-ASCII characters
-    for char in non_ascii_chars:
-        name = ""
-        try:
-            name = unicodedata.name(char)
-        except ValueError:  # Some characters might not have a name
-            pass
-        category = unicodedata.category(char)
-        print(
-            f"Found non-ASCII character '{char}' with category '{category}', name '{name}', and ASCII value {ord(char)}"
-        )
-
-
 def replace_ambiguous_characters(text):
+    """replace the ambiguous characters in a string with their ASCII equivalents"""
     replacement_map = {
         "”": '"',
         "“": '"',
@@ -92,7 +74,7 @@ def replace_ambiguous_characters(text):
         "ô": "o",
         "ö": "o",
         "ø": "o",
-        "¸": "",
+        "¸": ",",
     }
 
     for original_char, replacement_char in replacement_map.items():
