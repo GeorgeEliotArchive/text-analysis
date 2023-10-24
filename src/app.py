@@ -12,6 +12,9 @@ secret_key = b"UytePO(cDDRerwq3r4t5y6u12i8o9232Ez[!@#$%^&*()_+)"
 
 login_manager = LoginManager()
 
+from ._yufei.routes import yufei
+from ._libo.routes import libo
+
 
 def create_app():
     init_log()
@@ -22,6 +25,9 @@ def create_app():
     application.secret_key = secret_key
 
     login_manager.init_app(application)
+
+    application.register_blueprint(yufei, url_prefix="/yufei")
+    application.register_blueprint(libo, url_prefix="/libo")
 
     @application.errorhandler(404)
     def page_not_found(e):
