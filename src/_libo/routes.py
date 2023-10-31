@@ -27,5 +27,18 @@ def route_xml(file_name):
 
 @libo.route("/display/<file_name>")
 def display_xml(file_name):
-    # return render_template_string(open("_libo/display_xml.html").read(), filename=file_name)
     return render_template("_libo/display_xml.html", filename=file_name)
+
+
+@libo.route("/text/")
+def route_display_text():
+    return render_template("_libo/text_display.html")
+
+
+@libo.route("/text/get-xml/<file_name>")
+def route_display_xml_file(file_name):
+    xml_data = read_xml_file(file_name)
+    if xml_data:
+        return Response(xml_data, mimetype="text/xml")
+    else:
+        return jsonify({"message": "Error reading XML file."}), 500

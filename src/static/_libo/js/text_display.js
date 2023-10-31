@@ -1,21 +1,69 @@
 let search_minimized = false;
 let search_toggle = "";
+let text_select = "";
 
 function populateDropdown() {
   // Array of options to add
-  var options = { "Brother Jacob": "Adam Bede_refine_v1.1", "Middle March": "Middlemarch_refine_v1" };
+  var options = {
+    "Brother Jacob": "Brother Jacob_refine_v1",
+    "Middle March": "Middlemarch_refine_v1",
+    "Adam Bebe": "Adam Bede_refine_v1.1",
+    "Daniel Deronda": "Daniel_Deronda_refine_v1",
+    "Felix Holt": "Felix Holt, the Radical_refine_v1",
+    "Impressions of Theophrastus Such": "Impressions of Theophrastus Such",
+    "Janet's Repentance": "Janet's Repentance",
+    "Mr.Gilfil's Love Story": "Mr.Gilfil's Love Story",
+    Romola: "Romola_refine_v1",
+    "Silas Maner": "Silas Marner",
+    "The Lifted Veil": "The Lifted Veil",
+    "The Mill on the Floss": "The Mill on the Floss",
+    "The Sad Fortunes of the Rev. Amos Barton": "The Sad Fortunes of the Reverend Amos Barton",
+  };
 
   // Get the select element
   var select = document.getElementById("fiction_list");
 
+  var firstOptionValue;
+
   // Loop through the array and create option elements
+  // for (let x in options) {
+  //   var opt = x;
+  //   var el = document.createElement("option");
+  //   el.textContent = opt;
+  //   el.value = options[x];
+  //   select.appendChild(el);
+  // }
   for (let x in options) {
-    var opt = x;
-    var el = document.createElement("option");
-    el.textContent = opt;
-    el.value = options[x];
-    select.appendChild(el);
+    if (options.hasOwnProperty(x)) {
+      var opt = x;
+      var el = document.createElement("option");
+      el.textContent = opt;
+      el.value = options[x];
+      select.appendChild(el);
+
+      if (!firstOptionValue) {
+        firstOptionValue = options[x]; // Set the first option value
+      }
+    }
   }
+  select.addEventListener("change", function () {
+    var selectedOption = this.value;
+    console.log("You selected: " + selectedOption);
+    doc_clear = document.getElementById("xml-display");
+    doc_clear.innerHTML = "";
+    displayTEIContent(selectedOption);
+  });
+
+  // Select the first option as default
+  select.value = firstOptionValue;
+
+  // Trigger the change event or call the function directly for the first option
+  // Method 1: Trigger change event
+  var event = new Event("change");
+  select.dispatchEvent(event);
+
+  // Or Method 2: Call the function directly (if you prefer)
+  // displayTEIContent(firstOptionValue);
 }
 
 // Call the function to populate the dropdown
@@ -98,10 +146,11 @@ function searchAndHighlight(phrase) {
   const searchInput = document.getElementById("search_input");
 
   searchContainer.innerHTML = ""; // Clear previous search results
-  searchResults.innerHTML = ""; // Clear previous search results
-
   searchContainer.classList.remove("minimized");
+
+  searchResults.innerHTML = "";
   searchResults.classList.remove("minimized");
+
   search_minimized = false;
 
   // First, remove existing highlights
@@ -149,12 +198,12 @@ function searchAndHighlight(phrase) {
     return `${p1 || ""} <span class="highlight" id="${id}">${p2}</span> ${p3 || ""}`;
   });
 
-  if (searchResults.children.length > 0) {
-    // search_results.style.display = "block";
-    searchContainer.appendChild(searchResults);
-    searchContainer.style.display = "block";
-    pop_up_interactive(searchContainer, searchResults, searchInput);
+  searchContainer.appendChild(searchResults);
+  if (searchResults.children.length === 0) {
+    search_minimized = true;
   }
+  searchContainer.style.display = "block";
+  pop_up_interactive(searchContainer, searchResults, searchInput);
 
   draggable_div(searchContainer);
 
