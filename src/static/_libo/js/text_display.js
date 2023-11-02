@@ -25,14 +25,6 @@ function populateDropdown() {
 
   var firstOptionValue;
 
-  // Loop through the array and create option elements
-  // for (let x in options) {
-  //   var opt = x;
-  //   var el = document.createElement("option");
-  //   el.textContent = opt;
-  //   el.value = options[x];
-  //   select.appendChild(el);
-  // }
   for (let x in options) {
     if (options.hasOwnProperty(x)) {
       var opt = x;
@@ -68,7 +60,7 @@ function populateDropdown() {
 
 // Call the function to populate the dropdown
 
-function displayTEIContent(filename) {
+function displayTEIContent_(filename) {
   fetch("get-xml/" + filename)
     .then((response) => response.text())
     .then((data) => {
@@ -96,25 +88,42 @@ function displayTEIContent(filename) {
     });
 }
 
-function searchOneAndHighlight(phrase) {
-  const displayArea = document.getElementById("xml-display");
-  let innerHTML = displayArea.innerHTML;
-  const regex = new RegExp(phrase, "gi");
-  const replacement = `<span class="highlight">${phrase}</span>`;
-  innerHTML = innerHTML.replace(regex, replacement);
-  displayArea.innerHTML = innerHTML;
+function displayTEIContent(filename) {
+  fetch("get-xml/" + filename)
+    .then((response) => response.text())
+    .then((data) => {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data, "text/xml");
+      // Serialize XML DOM to string
+      let frontNode = xmlDoc.getElementsByTagName("front")[0];
+      console.log(frontNode);
+      var serializer = new XMLSerializer();
+      var serializedXml = serializer.serializeToString(xmlDoc);
+      // Escape the XML string
+
+      document.getElementById("xml-display").innerHTML = escapeXml(serializedXml);
+    });
 }
 
-function searchWordsAndHighlight(phrase) {
-  const displayArea = document.getElementById("xml-display");
-  let innerHTML = displayArea.innerHTML;
-  // Escape any special characters in the phrase
-  const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-  const regex = new RegExp(`(${escapedPhrase})`, "gi");
-  const replacement = `<span class="highlight">$1</span>`;
-  innerHTML = innerHTML.replace(regex, replacement);
-  displayArea.innerHTML = innerHTML;
-}
+// function searchOneAndHighlight(phrase) {
+//   const displayArea = document.getElementById("xml-display");
+//   let innerHTML = displayArea.innerHTML;
+//   const regex = new RegExp(phrase, "gi");
+//   const replacement = `<span class="highlight">${phrase}</span>`;
+//   innerHTML = innerHTML.replace(regex, replacement);
+//   displayArea.innerHTML = innerHTML;
+// }
+
+// function searchWordsAndHighlight(phrase) {
+//   const displayArea = document.getElementById("xml-display");
+//   let innerHTML = displayArea.innerHTML;
+//   // Escape any special characters in the phrase
+//   const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+//   const regex = new RegExp(`(${escapedPhrase})`, "gi");
+//   const replacement = `<span class="highlight">$1</span>`;
+//   innerHTML = innerHTML.replace(regex, replacement);
+//   displayArea.innerHTML = innerHTML;
+// }
 
 function searchPhraseAndHighlight(phrase) {
   const displayArea = document.getElementById("xml-display");
@@ -165,18 +174,28 @@ function searchAndHighlight(phrase) {
 
   let counter = 0;
   let innerHTML = displayArea.innerHTML;
+
+  // // Escape any special characters in the phrase
+  // const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+  // // Adding word boundaries to the regex
+  // const regex = new RegExp(`((?:\\w+\\W+){0,3}\\w*)?\\b(${escapedPhrase})\\b(\\w*(?:\\W+\\w+){0,3})?`, "gi");
+
   // Escape any special characters in the phrase
   const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
   // Revised regex to capture strictly two words
-  const regex = new RegExp(`((?:\\w+\\W+){0,2}\\w*)?\\W*(${escapedPhrase})\\W*(\\w*(?:\\W+\\w+){0,2})?`, "gi");
+  // const regex = new RegExp(`((?:\\w+\\W+){0,2}\\w*)?\\b(${escapedPhrase})\\b(\\w*(?:\\W+\\w+){0,2})?`, "gi");
+  const regex = new RegExp(`((?:\\w+\\W+){0,2}\\w*)?\\b(${escapedPhrase})\\b(\\w*(?:\\W+\\w+){0,2})?`, "gi");
 
   innerHTML = innerHTML.replace(regex, function (match, p1, p2, p3) {
+    let { p1_revised, p3_revised } = reviseP1P3(p1, p3);
+
     const id = `match-${counter++}`;
     const resultItem = document.createElement("div");
     resultItem.className = "search-result";
-    resultItem.innerHTML = `${p1 || ""} <strong>${p2}</strong> ${p3 || ""}`;
+    resultItem.innerHTML = `${p1_revised || ""} <strong>${p2}</strong> ${p3_revised || ""}`;
     resultItem.addEventListener("click", () => {
       const target = document.getElementById(id);
+
       const targetPosition = target.getBoundingClientRect().top;
       const offset = window.pageYOffset + targetPosition - window.innerHeight / 2;
       window.scrollTo(0, offset);
@@ -308,4 +327,60 @@ function draggable_div(doc_drag) {
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mouseup", onMouseUp);
   }
+}
+
+function xmlToHtml(xmlNode) {
+  var html = "";
+
+  // Iterate over XML nodes and build HTML
+  xmlNode.childNodes.forEach(function (node) {
+    switch (node.nodeType) {
+      case Node.ELEMENT_NODE: // Element
+        html += "<div><strong>" + node.nodeName + ":</strong>";
+        html += xmlToHtml(node); // Recursive call for child nodes
+        html += "</div>";
+        break;
+      case Node.TEXT_NODE: // Text
+        if (node.textContent.trim() !== "") {
+          html += " " + node.textContent;
+        }
+        break;
+    }
+  });
+
+  return html;
+}
+
+function escapeXml(xmlString) {
+  // Escape special characters, <q>'s, and </q>'s
+  return xmlString.replace(/<q>/gi, "").replace(/<\/q>/gi, "");
+}
+
+function reviseP1P3(p1, p3) {
+  let p1_revised = "";
+  let p3_revised = "";
+  console.log("p1: ", p1);
+  console.log("p3: ", p3);
+  if (p1 !== undefined) {
+    // if (p1.includes("/p")) {
+    //   p1_revised = "";
+    // } else if (p1.includes(">")) {
+    //   let parts = p1.split(">");
+    //   p1_revised = parts[1].trim(); // Assuming you always want the part after ">"
+    // } else {
+    //   p1_revised = p1.trim(); // Just trim the original string if ">" is not present
+    // }
+    p1_revised = p1.replace(/<p\s*$/, "");
+  }
+  if (p3 !== undefined) {
+    // if (p3.includes("<")) {
+    //   let parts = p3.split("<");
+    //   p3_revised = parts[0].trim(); // Assuming you always want the part after ">"
+    // } else {
+    //   p3_revised = p3.trim(); // Just trim the original string if ">" is not present
+    // }
+    p3_revised = p3.replace(/<p\s*$/, "");
+  }
+
+  return { p1_revised, p3_revised };
 }
