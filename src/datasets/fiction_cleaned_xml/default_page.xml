@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<TEI>
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Text Explorer Project</title>
+        <author>George Eliot</author>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>George Eliot Archive, edited by Beverley Park Rilett, https://GeorgeEliotArchive.org</publisher>
+        <address>
+          <addrLine>Auburn University, 231 Mell Street, Auburn, AL, 36832, USA</addrLine>
+        </address>
+        <availability>This is an open access work licensed under a Creative Commons Attribution Non-Commercial ShareAlike 4.0 International (CC BY-NC-SA 4.0) license.</availability>
+      </publicationStmt>
+      <sourceDesc>
+        <bibl>
+          <source></source>
+        </bibl>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+<text>
+<front>
+
+</front>
+<body>
+<div type="textpart" subtype="title" n="title"></div>
+</body>
+</text>
+</TEI>

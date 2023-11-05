@@ -1,10 +1,26 @@
 front {
-  display: none !important;
+  display: none;
   color: cadetblue;
 }
 
 teiheader {
   color: cadetblue;
+}
+
+teiheader title {
+  font-size: 2em;
+  font-weight: 700;
+  font-family: "Tahoma", sans-serif;
+  color: peru;
+  display: block;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+author::before {
+  content: "By ";
+  font-weight: 700;
+  font-family: "Tahoma", sans-serif;
 }
 author {
   font-weight: 700;
@@ -14,6 +30,21 @@ author {
 }
 publisher {
   font-weight: 700;
+}
+publisher::after {
+  content: "\a\a Text encoded by Beverley Park Rilett, Yue Cui, and Libo Sun (2023)";
+  white-space: pre;
+}
+
+availability::before {
+  content: "\a";
+  white-space: pre;
+}
+availability::after {
+  content: ""; /* Required property for ::after to work, but it's an empty string */
+  display: block; /* Ensures the pseudo-element is treated as a block, thus taking up the full width */
+  margin: 8px 0; /* Adds some space above and below the line */
+  border-bottom: 1px solid #000; /* Creates the line as a border-bottom */
 }
 
 div[type="content"] {
@@ -34,4 +65,20 @@ p {
   text-align: left;
   font-size: normal;
   font-weight: normal;
+}
+
+publicationstmt address {
+  display: none;
+}
+
+publicationstmt distributor {
+  display: none;
+}
+
+sourcedesc bibl::before {
+  content: "";
+  white-space: pre;
+}
+sourcedesc bibl {
+  color: black;
 }
