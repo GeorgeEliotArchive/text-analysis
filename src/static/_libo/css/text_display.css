@@ -22,13 +22,13 @@
 }
 
 .highlight {
-  color: tomato;
+  color: crimson;
   /* text-size-adjust: 120%; */
   font-size: 120%;
   font-weight: bold;
 }
 .jump-to {
-  background-color: lightgreen;
+  background-color: lightblue;
   font-weight: bold;
 }
 

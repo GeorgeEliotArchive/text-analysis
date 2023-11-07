@@ -6,14 +6,14 @@ let id_pop_row = "";
 function populateDropdown() {
   // Array of options to add
   var options = {
-    "Search A Text to Explore": "default_page",
+    "Search a text to explore": "default_page",
     "Mr. Gilfil's Love Story (1857)": "Mr.Gilfil's Love Story",
     "Janet's Repentance (1857)": "Janet's Repentance",
     "The Sad Fortunes of the Rev. Amos Barton (1857)": "The Sad Fortunes of the Reverend Amos Barton",
     "Adam Bede (1859)": "Adam Bede_refine_v1.1",
     "The Lifted Veil (1859)": "The Lifted Veil",
     "The Mill on the Floss (1860)": "The Mill on the Floss",
-    "Silas Maner (1861)": "Silas Marner",
+    "Silas Marner (1861)": "Silas Marner",
     "Romola (1863)": "Romola_refine_v1",
     "Brother Jacob (1864)": "Brother Jacob_refine_v1",
     "Felix Holt, the Radical (1866)": "Felix Holt, the Radical_refine_v1",
@@ -119,7 +119,8 @@ function searchAndHighlight(phrase) {
 
   // v3
   const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
-  const regex = new RegExp(`((?:\\w+\\W+){0,3})?\\b(${escapedPhrase})\\b((?:$|\\W+\\w+){0,3})?`, "gi");
+  const variationPattern = `\\w*`; // This matches "ing" or "s" after the base word.
+  const regex = new RegExp(`((?:\\w+\\W+){0,3})?\\b(${escapedPhrase}${variationPattern})((?:\\W+\\w+){0,3})?`, "gi");
 
   // // v4
   // const escapedPhrase = phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
