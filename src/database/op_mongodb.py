@@ -1,13 +1,12 @@
 # File Name: database/op_mongodb.py
-# Job Board Sandbox
-# Author: Libo Sun  libo@wrightmediacorp.com
-# Created: Sept 24, 2023
+
+
 
 import logging
 import pymongo
 
 
-MONGO_URI = "mongodb+srv://libo:<password>@cluster0.qwij9yh.mongodb.net/"
+MONGO_URI = "mongodb+srv://<name>:<password>@cluster0.qwij9yh.mongodb.net/"
 OP_NON_EMPTY = ["$or"]
 
 

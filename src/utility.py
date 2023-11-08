@@ -1,7 +1,5 @@
 # File Name: utility.py
-# Job Board Sandbox
-# Author: Libo Sun  libo@wrightmediacorp.com
-# Created: Sept 24, 2023
+
 
 import logging
 
