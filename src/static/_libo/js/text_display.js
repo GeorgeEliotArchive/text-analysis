@@ -81,7 +81,9 @@ function displayTEIContent(filename) {
 }
 
 function searchAndHighlight(phrase) {
-  const displayArea = document.getElementById("xml-display");
+  // const displayArea = document.getElementById("xml-display");
+  const displayArea = document.getElementsByTagName("text")[0];
+
   const searchResults = document.getElementById("search_results");
   const searchContainer = document.getElementById("search_container");
   const searchInput = document.getElementById("search_input");
