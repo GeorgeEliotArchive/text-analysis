@@ -2,36 +2,68 @@ let search_minimized = false;
 let search_toggle = "";
 let text_select = "";
 let id_pop_row = "";
+let selected_current = "";
+let selected_voyant = "";
+let display_voyant = false;
+
+const OptionToFilename = {
+  "Search a text to explore": "default_page",
+  "Mr. Gilfil's Love Story (1857)": "Mr.Gilfil's Love Story",
+  "Janet's Repentance (1857)": "Janet's Repentance",
+  "The Sad Fortunes of the Rev. Amos Barton (1857)": "The Sad Fortunes of the Reverend Amos Barton",
+  "Adam Bede (1859)": "Adam Bede_refine_v1.1",
+  "The Lifted Veil (1859)": "The Lifted Veil",
+  "The Mill on the Floss (1860)": "The Mill on the Floss",
+  "Silas Marner (1861)": "Silas Marner",
+  "Romola (1863)": "Romola_refine_v1",
+  "Brother Jacob (1864)": "Brother Jacob_refine_v1",
+  "Felix Holt, the Radical (1866)": "Felix Holt, the Radical_refine_v1",
+  "Middlemarch (1871-72)": "Middlemarch_refine_v1",
+  "Daniel Deronda (1876)": "Daniel_Deronda_refine_v1",
+  "Impressions of Theophrastus Such (1879)": "Impressions of Theophrastus Such",
+};
+
+const OptionToVoyant = {
+  "Search a text to explore": "",
+  "Mr. Gilfil's Love Story (1857)": "",
+  "Janet's Repentance (1857)": "",
+  "The Sad Fortunes of the Rev. Amos Barton (1857)": "",
+  "Adam Bede (1859)":
+    "https://voyant-tools.org/tool/Cirrus/?corpus=3cc2427efa1f1eb749aa55b5cfd099d2&stopList=keywords-2459d9912745179a64508611ee85dd7e&whiteList=",
+  "The Lifted Veil (1859)":
+    "https://voyant-tools.org/tool/Cirrus/?corpus=5118a197e536559b5477e131cd47cfbd&amp;stopList=keywords-2459d9912745179a64508611ee85dd7e&amp;whiteList=",
+  "The Mill on the Floss (1860)":
+    "https://voyant-tools.org/tool/Cirrus/?corpus=de768516be0c442993cf4dc528d7a517&stopList=keywords-2459d9912745179a64508611ee85dd7e&whiteList=",
+  "Silas Marner (1861)":
+    "https://voyant-tools.org/tool/Cirrus/?corpus=6fca8d7a3c23fb7382362a5cedd4c1ff&amp;stopList=keywords-2459d9912745179a64508611ee85dd7e",
+  "Romola (1863)":
+    "https://voyant-tools.org/tool/Cirrus/?input=https://georgeeliotarchive.org/files/original/3d43f4fe740957af8f44b3cc3c546634.txt&stopList=keywords-2459d9912745179a64508611ee85dd7e&whiteList=",
+  "Brother Jacob (1864)":
+    "https://voyant-tools.org/tool/Cirrus/?corpus=3a4983c60fa87982a4339a385b3b47a0&amp;stopList=keywords-2459d9912745179a64508611ee85dd7e&amp;whiteList=",
+  "Felix Holt, the Radical (1866)":
+    "https://voyant-tools.org/tool/Cirrus/?corpus=3ec2ba3d2975f24a51c5c0ac563fe760&stopList=keywords-19ea191a1678afdff2e05f8877e8abb3&whiteList=",
+  "Middlemarch (1871-72)":
+    "https://voyant-tools.org/tool/Cirrus/?corpus=497f9eaa114f7e284f94edc7083da136&stopList=keywords-19ea191a1678afdff2e05f8877e8abb3&whiteList=",
+  "Daniel Deronda (1876)":
+    "https://voyant-tools.org/tool/Cirrus/?corpus=a57da0012c1dd1033963f5732904f1f4&stopList=keywords-2459d9912745179a64508611ee85dd7e&whiteList=",
+  "Impressions of Theophrastus Such (1879)":
+    "https://voyant-tools.org/tool/Cirrus/?input=https://georgeeliotarchive.org/files/original/d828ef209fb49bf45bbb2d24f58e5b74.txt&stopList=keywords-2459d9912745179a64508611ee85dd7e&whiteList=",
+};
 
 function populateDropdown() {
   // Array of options to add
-  var options = {
-    "Search a text to explore": "default_page",
-    "Mr. Gilfil's Love Story (1857)": "Mr.Gilfil's Love Story",
-    "Janet's Repentance (1857)": "Janet's Repentance",
-    "The Sad Fortunes of the Rev. Amos Barton (1857)": "The Sad Fortunes of the Reverend Amos Barton",
-    "Adam Bede (1859)": "Adam Bede_refine_v1.1",
-    "The Lifted Veil (1859)": "The Lifted Veil",
-    "The Mill on the Floss (1860)": "The Mill on the Floss",
-    "Silas Marner (1861)": "Silas Marner",
-    "Romola (1863)": "Romola_refine_v1",
-    "Brother Jacob (1864)": "Brother Jacob_refine_v1",
-    "Felix Holt, the Radical (1866)": "Felix Holt, the Radical_refine_v1",
-    "Middlemarch (1871-72)": "Middlemarch_refine_v1",
-    "Daniel Deronda (1876)": "Daniel_Deronda_refine_v1",
-    "Impressions of Theophrastus Such (1879)": "Impressions of Theophrastus Such",
-  };
+  let options = OptionToFilename;
 
   // Get the select element
-  var select = document.getElementById("fiction_list");
+  let select = document.getElementById("fiction_list");
 
-  var firstOptionValue;
+  let firstOptionValue;
 
   for (let x in options) {
     if (options.hasOwnProperty(x)) {
-      var opt = x;
-      var el = document.createElement("option");
-      el.textContent = opt;
+      // let opt = x;
+      let el = document.createElement("option");
+      el.textContent = x;
       el.value = options[x];
       select.appendChild(el);
 
@@ -41,10 +73,12 @@ function populateDropdown() {
     }
   }
   select.addEventListener("change", function () {
-    var selectedOption = this.value;
-    console.log("You selected: " + selectedOption);
-    doc_clear = document.getElementById("xml-display");
+    let selectedOption = this.value;
+    console.log("Selected: " + selectedOption);
+    selected_current = this.options[this.selectedIndex].text;
+    let doc_clear = document.getElementById("xml-display");
     doc_clear.innerHTML = "";
+    closeVoyantTool();
     displayTEIContent(selectedOption);
   });
 
@@ -53,7 +87,7 @@ function populateDropdown() {
 
   // Trigger the change event or call the function directly for the first option
   // Method 1: Trigger change event
-  var event = new Event("change");
+  let event = new Event("change");
   select.dispatchEvent(event);
 
   // Or Method 2: Call the function directly (if you prefer)
@@ -70,10 +104,10 @@ function displayTEIContent(filename) {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(data, "text/xml");
       // Serialize XML DOM to string
-      let frontNode = xmlDoc.getElementsByTagName("front")[0];
-      console.log(frontNode);
-      var serializer = new XMLSerializer();
-      var serializedXml = serializer.serializeToString(xmlDoc);
+      // let frontNode = xmlDoc.getElementsByTagName("front")[0];
+      // console.log(frontNode);
+      let serializer = new XMLSerializer();
+      let serializedXml = serializer.serializeToString(xmlDoc);
       // Escape the XML string
 
       document.getElementById("xml-display").innerHTML = escapeXml(serializedXml);
@@ -197,7 +231,7 @@ function pop_up_interactive(doc_container, displayed_results, doc_scroll_top) {
   }
 
   // Create a text span or div
-  var textDisplay = document.createElement("span");
+  let textDisplay = document.createElement("span");
   textDisplay.className = "start-0 text-primary fs-6";
   textDisplay.textContent = displayed_results.children.length + " results";
   container.appendChild(textDisplay); // Append text to the container
@@ -289,7 +323,7 @@ function draggable_div(doc_drag) {
 }
 
 function xmlToHtml(xmlNode) {
-  var html = "";
+  let html = "";
 
   // Iterate over XML nodes and build HTML
   xmlNode.childNodes.forEach(function (node) {
@@ -343,4 +377,56 @@ function hide_search_container() {
     // searchContainer.innerHTML = "";
     searchContainer.style.display = "none";
   }
+}
+
+function initVoyantTool() {
+  selected_voyant = "";
+  display_voyant = false;
+  changeVoyantToolButton("Voyant Tool");
+}
+// Function to insert the Voyant tool
+function insertVoyantTool(url) {
+  let iframe = document.createElement("iframe");
+  iframe.setAttribute("src", url);
+  iframe.setAttribute("width", "100%");
+  iframe.setAttribute("height", "600");
+  iframe.setAttribute("id", "voyantIframe"); // Set an ID for the iframe
+
+  let container = document.getElementById("voyant-tool-display");
+  container.appendChild(iframe);
+  changeVoyantToolButton("Close Voyant");
+}
+
+// Function to remove the Voyant tool
+function closeVoyantTool() {
+  let iframe = document.getElementById("voyantIframe");
+  if (iframe) {
+    iframe.remove(); // Remove the iframe
+  }
+  initVoyantTool();
+}
+
+function displayVoyantTool() {
+  if (display_voyant === false || selected_voyant !== selected_current) {
+    const url = OptionToVoyant[selected_current];
+    if (url === "") {
+      initVoyantTool();
+      return;
+    }
+    insertVoyantTool(url);
+    display_voyant = true;
+    selected_voyant = selected_current;
+  } else {
+    closeVoyantTool();
+    display_voyant = false;
+  }
+
+  // document.getElementById("button-voyant").addEventListener("click", closeVoyantTool);
+  const voyantTool = document.getElementById("voyant-tool-display");
+  voyantTool.style.display = "block";
+}
+
+function changeVoyantToolButton(value) {
+  const voyantToolButton = document.getElementById("button-voyant");
+  voyantToolButton.textContent = value;
 }

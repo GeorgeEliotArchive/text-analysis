@@ -25,19 +25,22 @@
         aria-describedby="button-addon2"
       />
       <button
-        class="btn btn-outline-secondary"
+        class="btn btn-outline-primary"
         type="submit"
         id="button-addon2"
         onclick="searchAndHighlight(document.getElementById('search_input').value)"
       >
         Search
       </button>
+      <button class="btn btn-outline-secondary" type="submit" id="button-voyant" onclick="displayVoyantTool()">
+        Voyant-tool
+      </button>
     </div>
     <div id="search_container" class="position-fixed container">
       <div id="search_message"></div>
       <div id="search_results" class="position-fixed container"></div>
     </div>
-
+    <div id="voyant-tool-display" class="container"></div>
     <div id="xml-display"></div>
 
     <script type="text/javascript" src="{{ url_for('static',filename='_libo/js/text_display.js') }}"></script>
