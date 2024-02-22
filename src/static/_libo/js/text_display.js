@@ -21,6 +21,7 @@ const OptionToFilename = {
   "Middlemarch (1871-72)": "Middlemarch_refine_v1",
   "Daniel Deronda (1876)": "Daniel_Deronda_refine_v1",
   "Impressions of Theophrastus Such (1879)": "Impressions of Theophrastus Such",
+  "All Non-Fiction": "all_nonfictions_simple",
 };
 
 const OptionToVoyant = {
