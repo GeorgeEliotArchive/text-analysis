@@ -21,7 +21,7 @@ const OptionToFilename = {
   "Middlemarch (1871-72)": "Middlemarch_refine_v1",
   "Daniel Deronda (1876)": "Daniel_Deronda_refine_v1",
   "Impressions of Theophrastus Such (1879)": "Impressions of Theophrastus Such",
-  "All Non-Fiction": "all_nonfictions_simple",
+  "All Nonfiction": "all_nonfictions_simple",
 };
 
 const OptionToVoyant = {
@@ -49,6 +49,8 @@ const OptionToVoyant = {
     "https://voyant-tools.org/tool/Cirrus/?corpus=a57da0012c1dd1033963f5732904f1f4&stopList=keywords-2459d9912745179a64508611ee85dd7e&whiteList=",
   "Impressions of Theophrastus Such (1879)":
     "https://voyant-tools.org/tool/Cirrus/?input=https://georgeeliotarchive.org/files/original/d828ef209fb49bf45bbb2d24f58e5b74.txt&stopList=keywords-2459d9912745179a64508611ee85dd7e&whiteList=",
+  "All Nonfiction":
+    "https://voyant-tools.org/?corpus=de5b839103819a2a0bc741013bf2ea6b&view=Cirrus&stopList=keywords-2459d9912745179a64508611ee85dd7e&whiteList=",
 };
 
 function populateDropdown() {

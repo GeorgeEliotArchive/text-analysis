@@ -11,3 +11,24 @@
 2024-02-22 14:21:21,277 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [22/Feb/2024 14:21:21] "GET /libo/text/get-xml/default_page HTTP/1.1" 200 -
 2024-02-22 14:21:21,290 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [22/Feb/2024 14:21:21] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
 2024-02-22 14:21:23,805 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [22/Feb/2024 14:21:23] "GET /libo/text/get-xml/all_nonfictions_simple HTTP/1.1" 200 -
+2024-02-22 14:27:27,830 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-02-22 14:27:27,830 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2024-02-22 14:27:37,032 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [22/Feb/2024 14:27:37] "GET /libo/text/ HTTP/1.1" 200 -
+2024-02-22 14:27:37,073 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [22/Feb/2024 14:27:37] "GET /static/_libo/js/text_display.js HTTP/1.1" 200 -
+2024-02-22 14:27:37,073 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [22/Feb/2024 14:27:37] "[36mGET /static/_libo/css/text_display.css HTTP/1.1[0m" 304 -
+2024-02-22 14:27:37,074 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [22/Feb/2024 14:27:37] "[36mGET /static/_libo/css/xml_parser.css HTTP/1.1[0m" 304 -
+2024-02-22 14:27:37,084 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [22/Feb/2024 14:27:37] "GET /libo/text/get-xml/default_page HTTP/1.1" 200 -
+2024-02-22 14:27:39,591 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [22/Feb/2024 14:27:39] "GET /libo/text/get-xml/all_nonfictions_simple HTTP/1.1" 200 -
+2024-02-24 10:22:29,980 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-02-24 10:22:29,980 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2024-02-24 10:22:37,694 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [24/Feb/2024 10:22:37] "GET / HTTP/1.1" 200 -
+2024-02-24 10:22:37,716 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [24/Feb/2024 10:22:37] "[33mGET /static/style.css HTTP/1.1[0m" 404 -
+2024-02-24 10:22:38,275 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [24/Feb/2024 10:22:38] "GET /static/favicon.ico HTTP/1.1" 200 -
+2024-02-24 10:22:42,185 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [24/Feb/2024 10:22:42] "GET /libo/text/ HTTP/1.1" 200 -
+2024-02-24 10:22:42,211 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [24/Feb/2024 10:22:42] "GET /static/_libo/css/text_display.css HTTP/1.1" 200 -
+2024-02-24 10:22:42,214 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [24/Feb/2024 10:22:42] "GET /static/_libo/js/text_display.js HTTP/1.1" 200 -
+2024-02-24 10:22:42,214 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [24/Feb/2024 10:22:42] "GET /static/_libo/css/xml_parser.css HTTP/1.1" 200 -
+2024-02-24 10:22:42,226 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [24/Feb/2024 10:22:42] "GET /libo/text/get-xml/default_page HTTP/1.1" 200 -
+2024-02-24 10:22:45,474 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [24/Feb/2024 10:22:45] "GET /libo/text/get-xml/all_nonfictions_simple HTTP/1.1" 200 -
